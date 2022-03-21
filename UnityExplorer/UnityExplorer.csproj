@@ -24,6 +24,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ModTemplate.csproj.user" />
+    <Content Include="UnityExplorer.csproj.user" />
   </ItemGroup>
 </Project>

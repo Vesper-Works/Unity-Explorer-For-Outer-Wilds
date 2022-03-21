@@ -1,5 +1,0 @@
-﻿<Project>
-  <PropertyGroup>
-    <OutputPath>$(AppData)\OuterWildsModManager\OWML\Mods\Raicuparta.ModTemplate</OutputPath>
-  </PropertyGroup>
-</Project>
