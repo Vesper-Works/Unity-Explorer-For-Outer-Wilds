@@ -1,5 +1,5 @@
 ﻿<Project>
   <PropertyGroup>
-    <OutputPath>$(AppData)\OuterWildsModManager\OWML\Mods\JohnCorby.UnityExplorer</OutputPath>
+    <OutputPath>$(AppData)\OuterWildsModManager\OWML\Mods\Vesper.UnityExplorer</OutputPath>
   </PropertyGroup>
 </Project>
