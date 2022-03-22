@@ -9,17 +9,18 @@ namespace UnityExplorer
     {
         private void Start()
         {
-            ExplorerStandalone.CreateInstance();
-            ExplorerStandalone.OnLog += (message, type) =>
-                ModHelper.Console.WriteLine(message, type switch
-                {
-                    LogType.Log => MessageType.Message,
-                    LogType.Warning => MessageType.Warning,
-                    LogType.Error => MessageType.Error,
-                    LogType.Assert => MessageType.Error,
-                    LogType.Exception => MessageType.Error,
-                    _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
-                });
+            ExplorerStandalone.CreateInstance(
+                (message, type) =>
+                    ModHelper.Console.WriteLine(message, type switch
+                    {
+                        LogType.Log => MessageType.Message,
+                        LogType.Warning => MessageType.Warning,
+                        LogType.Error => MessageType.Error,
+                        LogType.Assert => MessageType.Error,
+                        LogType.Exception => MessageType.Error,
+                        _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+                    })
+            );
         }
     }
 }
