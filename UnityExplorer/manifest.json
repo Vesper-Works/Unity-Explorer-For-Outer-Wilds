@@ -4,5 +4,6 @@
   "name": "Unity Explorer",
   "uniqueName": "Vesper.UnityExplorer",
   "version": "4.6.2",
-  "owmlVersion": "2.3.2"
+  "owmlVersion": "2.3.2",
+  "pathsToPreserve": ["UnityExplorer"]
 }
