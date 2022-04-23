@@ -7,8 +7,7 @@ namespace UnityExplorer
 {
     public class UnityExplorer : ModBehaviour
     {
-        private void Start()
-        {
+        private void Start() =>
             ExplorerStandalone.CreateInstance(
                 (message, type) =>
                     ModHelper.Console.WriteLine(message, type switch
@@ -21,6 +20,5 @@ namespace UnityExplorer
                         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
                     })
             );
-        }
     }
 }
