@@ -1,131 +1,113 @@
-﻿using System;
-using UnityEngine;
-using UnityExplorer.GLDrawHelpers;
+﻿using UnityEngine;
+using UnityExplorer.GizmoControls;
 
 namespace UnityExplorer.TransformGizmos
 {
     public abstract class BaseInteractablePositionGizmo : BaseTransformGizmo
     {
-        bool selectedXAxis = false;
-        bool selectedYAxis = false;
-        bool selectedZAxis = false;
-
-        Vector3 selectedXPosition;
-        Vector3 selectedYPosition;
-        Vector3 selectedZPosition;
+        ArrowControl x = new();
+        ArrowControl y = new();
+        ArrowControl z = new();
 
         Vector3 initialPosition;
 
-        public abstract float LineSegmentDistance();
-        public abstract Vector3 GetXDirection(Transform t);
-        public abstract Vector3 GetYDirection(Transform t);
-        public abstract Vector3 GetZDirection(Transform t);
+        protected float LineLenght;
+        protected float HeadLenght;
 
-        protected Vector3 GetPositionWithReferencial(Transform t, Vector3 position) 
+        public override void SetScale(float scale)
         {
-            if (t.parent == null)
-                return position;
-
-            return t.parent.InverseTransformPoint(position);
-        }
-        protected Vector3 ReturnPositionFromReferencial(Transform t, Vector3 position)
-        {
-            if (t.parent == null)
-                return position;
-
-            return t.parent.TransformPoint(position);
-        }
-        protected Vector3 GetDirectionWithReferencial(Transform t, Vector3 direction)
-        {
-            if (t.parent == null)
-                return direction;
-
-            return t.parent.InverseTransformDirection(direction);
+            base.SetScale(scale);
+            x.Scale = scale;
+            y.Scale = scale;
+            z.Scale = scale;
         }
 
-        public override bool CheckSelected(Ray ray, Transform t, float maxDistanceToSelect)
+        public void SetLineLenght(float lenght, float headLenght)
         {
-            Vector3 x = GetXDirection(t);
-            Vector3 y = GetYDirection(t);
-            Vector3 z = GetZDirection(t);
+            LineLenght = lenght;
+            HeadLenght = headLenght;
 
-            if (Vector3MathUtils.GetDistanceFromLineToLineSegment(ray.direction, ray.origin, t.position, t.position + x * LineSegmentDistance()) <= maxDistanceToSelect)
-            {
-                selectedXAxis = true;
-                Vector3MathUtils.GetClosestPointFromLines(ray.direction, ray.origin, x, t.position, out _, out selectedXPosition);
-                selectedXPosition = GetPositionWithReferencial(t, selectedXPosition);
-            }
-            if (Vector3MathUtils.GetDistanceFromLineToLineSegment(ray.direction, ray.origin, t.position, t.position + y * LineSegmentDistance()) <= maxDistanceToSelect)
-            {
-                selectedYAxis = true;
-                Vector3MathUtils.GetClosestPointFromLines(ray.direction, ray.origin, y, t.position, out _, out selectedYPosition);
-                selectedYPosition = GetPositionWithReferencial(t, selectedYPosition);
-            }
-            if (Vector3MathUtils.GetDistanceFromLineToLineSegment(ray.direction, ray.origin, t.position, t.position + z * LineSegmentDistance()) <= maxDistanceToSelect)
-            {
-                selectedZAxis = true;
-                Vector3MathUtils.GetClosestPointFromLines(ray.direction, ray.origin, z, t.position, out _, out selectedZPosition);
-                selectedZPosition = GetPositionWithReferencial(t, selectedZPosition);
-            }
-            initialPosition = GetPositionWithReferencial(t, t.position);
+            x.Lenght = lenght;
+            x.HeadLenght = headLenght;
+            y.Lenght = lenght;
+            y.HeadLenght = headLenght;
+            z.Lenght = lenght;
+            z.HeadLenght = headLenght;
+        }
+        public abstract Vector3 GetXDirection();
+        public abstract Vector3 GetYDirection();
+        public abstract Vector3 GetZDirection();
+
+        public override void Set(Transform transform)
+        {
+            base.Set(transform);
+
+            x.Lenght = LineLenght;
+            x.HeadLenght = HeadLenght;
+            x.Transform = transform;
+            x.Color = Color.red;
+            x.SelectedColor = Color.Lerp(Color.red, Color.white, 0.8f);
+            x.Direction = (t) => GetXDirection();
+
+            y.Lenght = LineLenght;
+            y.HeadLenght = HeadLenght;
+            y.Transform = transform;
+            y.Color = Color.yellow;
+            y.SelectedColor = Color.Lerp(Color.yellow, Color.white, 0.8f);
+            y.Direction = (t) => GetYDirection();
+
+            z.Lenght = LineLenght;
+            z.HeadLenght = HeadLenght;
+            z.Transform = transform;
+            z.Color = Color.cyan;
+            z.SelectedColor = Color.Lerp(Color.cyan, Color.white, 0.8f);
+            z.Direction = (t) => GetZDirection();
+        }
+
+        public override bool CheckSelected(Ray ray, float maxDistanceToSelect)
+        {
+            x.MaxDistanceToSelect = maxDistanceToSelect;
+            y.MaxDistanceToSelect = maxDistanceToSelect;
+            z.MaxDistanceToSelect = maxDistanceToSelect;
+
+            x.IsSelected(ray);
+            y.IsSelected(ray);
+            z.IsSelected(ray);
+
+            initialPosition = Vector3MathUtils.GetPositionWithReferencial(transform, transform.position);
 
             return IsSelected();
         }
 
-        public override void OnRender(Transform t)
+        public override void OnRender()
         {
-            Vector3 x = GetXDirection(t);
-            Vector3 y = GetYDirection(t);
-            Vector3 z = GetZDirection(t);
-
-            GLHelper.DrawOnGlobalReference(() =>
-            {
-                //Local position axis
-                GLDraw.Vector(x, LineSegmentDistance(), t.position, selectedXAxis ? Color.Lerp(Color.red, Color.white, 0.8f) : Color.red);
-                GLDraw.Vector(y, LineSegmentDistance(), t.position, selectedYAxis ? Color.Lerp(Color.yellow, Color.white, 0.8f) : Color.yellow);
-                GLDraw.Vector(z, LineSegmentDistance(), t.position, selectedZAxis ? Color.Lerp(Color.cyan, Color.white, 0.8f) : Color.cyan);
-            });
+            x.Draw();
+            y.Draw();
+            z.Draw();
         }
-        public override void OnSelected(Ray ray, Transform t)
+        public override void OnSelected(Ray ray)
         {
-            Vector3 x = GetXDirection(t);
-            Vector3 y = GetYDirection(t);
-            Vector3 z = GetZDirection(t);
-
             Vector3 aditionToPosition = Vector3.zero;
-            if (selectedXAxis)
-            {
-                Vector3MathUtils.GetClosestPointFromLines(ray.direction, ray.origin, x, t.position, out _, out Vector3 currentXSelectedPosition);
-                currentXSelectedPosition = GetPositionWithReferencial(t, currentXSelectedPosition);
-                float distanceWihReference = Vector3.Dot(currentXSelectedPosition - selectedXPosition, GetDirectionWithReferencial(t, x));
-                aditionToPosition += distanceWihReference * GetDirectionWithReferencial(t, x);
-            }
-            if (selectedYAxis)
-            {
-                Vector3MathUtils.GetClosestPointFromLines(ray.direction, ray.origin, y, t.position, out _, out Vector3 currentYSelectedPosition);
-                currentYSelectedPosition = GetPositionWithReferencial(t, currentYSelectedPosition);
-                float distanceWihReference = Vector3.Dot(currentYSelectedPosition - selectedYPosition, GetDirectionWithReferencial(t, y));
-                aditionToPosition += distanceWihReference * GetDirectionWithReferencial(t, y);
-            }
-            if (selectedZAxis)
-            {
-                Vector3MathUtils.GetClosestPointFromLines(ray.direction, ray.origin, z, t.position, out _, out Vector3 currentZSelectedPosition);
-                currentZSelectedPosition = GetPositionWithReferencial(t, currentZSelectedPosition);
-                float distanceWihReference = Vector3.Dot(currentZSelectedPosition - selectedZPosition, GetDirectionWithReferencial(t, z));
-                aditionToPosition += distanceWihReference * GetDirectionWithReferencial(t, z);
-            }
-            t.position = ReturnPositionFromReferencial(t, initialPosition + aditionToPosition);
+
+            if (x.Selected)
+                aditionToPosition += x.GetValue(ray);
+            if (y.Selected)
+                aditionToPosition += y.GetValue(ray);
+            if (z.Selected)
+                aditionToPosition += z.GetValue(ray);
+
+            transform.position = Vector3MathUtils.ReturnPositionFromReferencial(transform, initialPosition + aditionToPosition);
         }
         public override bool IsSelected()
         {
-            return selectedXAxis || selectedYAxis || selectedZAxis;
+            return x.Selected || y.Selected || z.Selected;
         }
 
         public override void Reset()
         {
-            selectedXAxis = false;
-            selectedYAxis = false;
-            selectedZAxis = false;
+            x.Reset();
+            y.Reset();
+            z.Reset();
         }
     }
 }

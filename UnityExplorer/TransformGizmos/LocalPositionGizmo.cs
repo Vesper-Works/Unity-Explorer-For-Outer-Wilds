@@ -4,24 +4,34 @@ namespace UnityExplorer.TransformGizmos
 {
     public class LocalPositionGizmo : BaseInteractablePositionGizmo
     {
-        public override Vector3 GetXDirection(Transform t)
+        public override void Set(Transform transform)
         {
-            return t.parent.right;
+            LineLenght = 1.1f;
+            HeadLenght = 0.25f;
+            base.Set(transform);
+        }
+        public override Vector3 GetXDirection() 
+        {
+            if (transform.parent == null)
+                return Vector3.right;
+
+            return transform.parent.right;
         }
 
-        public override Vector3 GetYDirection(Transform t)
+        public override Vector3 GetYDirection()
         {
-            return t.parent.up;
+            if (transform.parent == null)
+                return Vector3.up;
+
+            return transform.parent.up;
         }
 
-        public override Vector3 GetZDirection(Transform t)
+        public override Vector3 GetZDirection()
         {
-            return t.parent.forward;
-        }
+            if (transform.parent == null)
+                return Vector3.forward;
 
-        public override float LineSegmentDistance()
-        {
-            return 0.25f;
+            return transform.parent.forward;
         }
     }
 }

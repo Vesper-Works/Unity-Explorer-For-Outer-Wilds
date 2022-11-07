@@ -4,24 +4,25 @@ namespace UnityExplorer.TransformGizmos
 {
     public class TransformOrientationGizmo : BaseInteractablePositionGizmo
     {
-        public override Vector3 GetXDirection(Transform t)
+        public override void Set(Transform transform)
         {
-            return t.right;
+            LineLenght = 1.1f;
+            HeadLenght = 0.25f;
+            base.Set(transform);
+        }
+        public override Vector3 GetXDirection()
+        {
+            return transform.right;
         }
 
-        public override Vector3 GetYDirection(Transform t)
+        public override Vector3 GetYDirection()
         {
-            return t.up;
+            return transform.up;
         }
 
-        public override Vector3 GetZDirection(Transform t)
+        public override Vector3 GetZDirection()
         {
-            return t.forward;
-        }
-
-        public override float LineSegmentDistance()
-        {
-            return 0.25f;
+            return transform.forward;
         }
     }
 }

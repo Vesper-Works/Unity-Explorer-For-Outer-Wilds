@@ -8,29 +8,14 @@ namespace UnityExplorer
 {
     public class ExtendedTransformTools : MonoBehaviour
     {
-        private void Awake()
-        {
-        }
-
-        private void Start()
-        {
-
-        }
         Transform selectedTransform;
-
 
         float maxDistanceToSelect = 0.05f;
 
-        LocalPositionGizmo localPositionGizmo = new LocalPositionGizmo();
-        LocalEulerAngleGizmo localEulerAngleGizmo = new LocalEulerAngleGizmo();
-        FromCameraViewRotationGizmo fromCameraViewRotationGizmo = new FromCameraViewRotationGizmo();
-
-        TransformOrientationGizmo transformOrientationGizmo = new TransformOrientationGizmo();
-
-        GlobalEulerAnglesGizmo globalEulerAnglesGizmo = new GlobalEulerAnglesGizmo();
-
-        GlobalPositionGizmo globalPositionGizmo = new GlobalPositionGizmo();
-
+        LocalPositionGizmo localPositionGizmo = new();
+        LocalEulerAngleGizmo localEulerAngleGizmo = new();
+        FromCameraViewRotationGizmo fromCameraViewRotationGizmo = new();
+        TransformOrientationGizmo transformOrientationGizmo = new();
 
         private void Update()
         {
@@ -55,83 +40,85 @@ namespace UnityExplorer
 
             selectedTransform = goInspector.Target.transform;
 
+            float scale = Vector3.Distance(Locator.GetActiveCamera().transform.position, selectedTransform.position) / 8f;
 
-            
-                Ray ray = Locator.GetActiveCamera().ScreenPointToRay(UniverseLib.Input.InputManager.MousePosition);
+            localPositionGizmo.SetScale(scale);
+            localEulerAngleGizmo.SetScale(scale);
+            transformOrientationGizmo.SetScale(scale);
+            fromCameraViewRotationGizmo.SetScale(scale);
 
-                if (UniverseLib.Input.InputManager.GetMouseButtonDown(0))
+            localPositionGizmo.Set(selectedTransform);
+            localEulerAngleGizmo.Set(selectedTransform);
+            transformOrientationGizmo.Set(selectedTransform);
+            fromCameraViewRotationGizmo.Set(selectedTransform);
+
+
+            Ray ray = Locator.GetActiveCamera().ScreenPointToRay(UniverseLib.Input.InputManager.MousePosition);
+
+            if (UniverseLib.Input.InputManager.GetMouseButtonDown(0))
+            {
+                if (!(localPositionGizmo.IsSelected() || localEulerAngleGizmo.IsSelected() || transformOrientationGizmo.IsSelected() || fromCameraViewRotationGizmo.IsSelected()))
                 {
-                    if (!(localPositionGizmo.IsSelected() || localEulerAngleGizmo.IsSelected() || transformOrientationGizmo.IsSelected() || fromCameraViewRotationGizmo.IsSelected()))
+                    
+                    localPositionGizmo.CheckSelected(ray, maxDistanceToSelect * scale);
+                    //TODO create a way to have selection priority (like in this if)
+                    if (!localPositionGizmo.IsSelected())
                     {
-                        if (selectedTransform.parent != null)
-                        {
-                            localPositionGizmo.CheckSelected(ray, selectedTransform, maxDistanceToSelect);
-                        }
-                        //TODO create a way to have selection priority (like in this if)
-                        if (!localPositionGizmo.IsSelected()) 
-                        {
-                            transformOrientationGizmo.CheckSelected(ray, selectedTransform, maxDistanceToSelect);
-                        }
-                        //TODO create a way to have incompatible gizmos not being selected at the same time
-                        if (!transformOrientationGizmo.IsSelected() && selectedTransform.parent != null)
-                        {
-                            localEulerAngleGizmo.CheckSelected(ray, selectedTransform, maxDistanceToSelect); 
-                        }
-                        if (!localEulerAngleGizmo.IsSelected()) 
-                        {
-                            fromCameraViewRotationGizmo.CheckSelected(ray, selectedTransform, maxDistanceToSelect);
-                        }
+                        transformOrientationGizmo.CheckSelected(ray, maxDistanceToSelect * scale);
+                    }
+                    //TODO create a way to have incompatible gizmos not being selected at the same time
+                    if (!transformOrientationGizmo.IsSelected())
+                    {
+                        localEulerAngleGizmo.CheckSelected(ray, maxDistanceToSelect * scale);
+                    }
+                    if (!localEulerAngleGizmo.IsSelected())
+                    {
+                        fromCameraViewRotationGizmo.CheckSelected(ray, maxDistanceToSelect * scale);
                     }
                 }
-                else if (UniverseLib.Input.InputManager.GetMouseButton(0))
+            }
+            else if (UniverseLib.Input.InputManager.GetMouseButton(0))
+            {
+                if (localPositionGizmo.IsSelected())
                 {
-                    if (localPositionGizmo.IsSelected())
-                    {
-                        localPositionGizmo.OnSelected(ray, selectedTransform);
-                    }
-                    if (transformOrientationGizmo.IsSelected())
-                    {
-                        transformOrientationGizmo.OnSelected(ray, selectedTransform);
-                    }
-                    if (localEulerAngleGizmo.IsSelected())
-                    {
-                        localEulerAngleGizmo.OnSelected(ray, selectedTransform);
-                    }
-                    if (fromCameraViewRotationGizmo.IsSelected()) 
-                    {
-                        fromCameraViewRotationGizmo.OnSelected(ray, selectedTransform);
-                    }
+                    localPositionGizmo.OnSelected(ray);
                 }
-                else
+                if (transformOrientationGizmo.IsSelected())
                 {
-                    localPositionGizmo.Reset();
-                    localEulerAngleGizmo.Reset();
-                    transformOrientationGizmo.Reset();
-                    fromCameraViewRotationGizmo.Reset();
+                    transformOrientationGizmo.OnSelected(ray);
                 }
-            
+                if (localEulerAngleGizmo.IsSelected())
+                {
+                    localEulerAngleGizmo.OnSelected(ray);
+                }
+                if (fromCameraViewRotationGizmo.IsSelected())
+                {
+                    fromCameraViewRotationGizmo.OnSelected(ray);
+                }
+            }
+            else
+            {
+                localPositionGizmo.Reset();
+                localEulerAngleGizmo.Reset();
+                transformOrientationGizmo.Reset();
+                fromCameraViewRotationGizmo.Reset();
+            }
+
         }
         public void OnRenderObject()
         {
             if (selectedTransform == null)
                 return;
+            GL.wireframe = true;
 
-            GLHelper.SetDefaultMaterialPass();
+            GLHelper.SetDefaultMaterialPass(0, true);
 
-            if (selectedTransform.parent != null)
-            {
-                localPositionGizmo.OnRender(selectedTransform);
-                localEulerAngleGizmo.OnRender(selectedTransform);
-                transformOrientationGizmo.OnRender(selectedTransform);
-                fromCameraViewRotationGizmo.OnRender(selectedTransform);
-            }
-            else
-            {
-                globalPositionGizmo.OnRender(selectedTransform);
-                globalEulerAnglesGizmo.OnRender(selectedTransform);
-                transformOrientationGizmo.OnRender(selectedTransform);
-                fromCameraViewRotationGizmo.OnRender(selectedTransform);
-            }
+            localPositionGizmo.OnRender();
+            localEulerAngleGizmo.OnRender();
+            transformOrientationGizmo.OnRender();
+            fromCameraViewRotationGizmo.OnRender();
+
+            GL.wireframe = false;
         }
     }
 }

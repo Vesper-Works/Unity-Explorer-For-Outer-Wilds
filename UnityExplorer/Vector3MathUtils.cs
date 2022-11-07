@@ -2,9 +2,38 @@
 
 namespace UnityExplorer
 {
-    //From https://math.stackexchange.com/questions/511370/how-to-rotate-one-vector-about-another
     public static class Vector3MathUtils
     {
+        public static Vector3 GetPositionWithReferencial(Transform t, Vector3 position)
+        {
+            if (t.parent == null)
+                return position;
+
+            return t.parent.InverseTransformPoint(position);
+        }
+        public static Vector3 ReturnPositionFromReferencial(Transform t, Vector3 position)
+        {
+            if (t.parent == null)
+                return position;
+
+            return t.parent.TransformPoint(position);
+        }
+        public static Vector3 GetDirectionWithReferencial(Transform t, Vector3 direction)
+        {
+            if (t.parent == null)
+                return direction;
+
+            return t.parent.InverseTransformDirection(direction);
+        }
+        public static Vector3 ReturnDirectionWithReferencial(Transform t, Vector3 direction)
+        {
+            if (t.parent == null)
+                return direction;
+
+            return t.parent.TransformDirection(direction);
+        }
+
+        //From https://math.stackexchange.com/questions/511370/how-to-rotate-one-vector-about-another
         public static void GetParalelAndPerpendicularComponent(Vector3 axis, Vector3 v, out Vector3 paralel, out Vector3 perpendicular)
         {
             paralel = Vector3.Dot(v, axis) * axis / axis.magnitude;

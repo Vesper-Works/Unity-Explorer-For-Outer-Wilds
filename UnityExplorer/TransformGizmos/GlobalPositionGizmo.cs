@@ -5,7 +5,7 @@ namespace UnityExplorer.TransformGizmos
 {
     public class GlobalPositionGizmo : BaseTransformGizmo
     {
-        public override bool CheckSelected(Ray ray, Transform t, float maxDistanceToSelect)
+        public override bool CheckSelected(Ray ray, float maxDistanceToSelect)
         {
             return false;
         }
@@ -15,17 +15,17 @@ namespace UnityExplorer.TransformGizmos
             return false;
         }
 
-        public override void OnRender(Transform t)
+        public override void OnRender()
         {
             GLHelper.DrawOnGlobalReference(() =>
             {
-                GLDraw.Vector(Vector3.right, 0.25f, t.position, Color.red);
-                GLDraw.Vector(Vector3.up, 0.25f, t.position, Color.yellow);
-                GLDraw.Vector(Vector3.forward, 0.25f, t.position, Color.cyan);
+                GLDraw.Vector(Vector3.right, 0.25f, transform.position, Color.red);
+                GLDraw.Vector(Vector3.up, 0.25f, transform.position, Color.yellow);
+                GLDraw.Vector(Vector3.forward, 0.25f, transform.position, Color.cyan);
             });
         }
 
-        public override void OnSelected(Ray ray, Transform t)
+        public override void OnSelected(Ray ray)
         {
             return;
         }

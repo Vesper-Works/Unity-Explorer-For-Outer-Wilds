@@ -5,7 +5,7 @@ namespace UnityExplorer.TransformGizmos
 {
     public class GlobalEulerAnglesGizmo : BaseTransformGizmo
     {
-        public override bool CheckSelected(Ray ray, Transform t, float maxDistanceToSelect)
+        public override bool CheckSelected(Ray ray, float maxDistanceToSelect)
         {
             return false;
         }
@@ -15,13 +15,13 @@ namespace UnityExplorer.TransformGizmos
             return false;
         }
 
-        public override void OnRender(Transform t)
+        public override void OnRender()
         {
             GLHelper.DrawOnGlobalReference(() =>
             {
                 //Global position axis
-                Vector3 localFowardAxis = t.forward;
-                Vector3 localRightAxis = t.right;
+                Vector3 localFowardAxis = transform.forward;
+                Vector3 localRightAxis = transform.right;
 
                 //Local Euler Rotation
                 Vector3 yRotationAxis = Vector3.Cross(Vector3.up, localFowardAxis);
@@ -30,13 +30,13 @@ namespace UnityExplorer.TransformGizmos
                     yRotationAxis = localRightAxis;
                 }
 
-                GLDraw.WireframeCircle(1f, yRotationAxis, localFowardAxis, t.position, Color.red, 16);
-                GLDraw.WireframeCircle(1f, Vector3.up, Vector3.forward, t.position, Color.yellow, 16);
-                GLDraw.WireframeCircle(1f, localFowardAxis, t.up, t.position, Color.cyan, 16);
+                GLDraw.WireframeCircle(1f, yRotationAxis, localFowardAxis, transform.position, Color.red, 16);
+                GLDraw.WireframeCircle(1f, Vector3.up, Vector3.forward, transform.position, Color.yellow, 16);
+                GLDraw.WireframeCircle(1f, localFowardAxis, transform.up, transform.position, Color.cyan, 16);
             });
         }
 
-        public override void OnSelected(Ray ray, Transform t)
+        public override void OnSelected(Ray ray)
         {
             return;
         }

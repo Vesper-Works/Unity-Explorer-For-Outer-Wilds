@@ -6,6 +6,7 @@ namespace UnityExplorer.GLDrawHelpers
     public static class GLHelper
     {
         static Material defaultGizmosMaterial;
+        static Material alwaysDrawOnTopDefaultGizmosMaterial;
         public static Material GetDefaultMaterial()
         {
             if (!defaultGizmosMaterial)
@@ -21,13 +22,36 @@ namespace UnityExplorer.GLDrawHelpers
                 // Turn backface culling off
                 defaultGizmosMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
                 // Turn off depth writes
-                defaultGizmosMaterial.SetInt("_ZWrite", 0);
+                defaultGizmosMaterial.SetInt("_ZWrite", -0);
             }
             return defaultGizmosMaterial;
         }
-        public static void SetDefaultMaterialPass(int pass = 0)
+        public static Material GetAlwaysDrawOnTopDefaultMaterial()
         {
-            GetDefaultMaterial().SetPass(pass);
+            if (!alwaysDrawOnTopDefaultGizmosMaterial)
+            {
+                Shader shader = Shader.Find("Hidden/Internal-Colored");
+                alwaysDrawOnTopDefaultGizmosMaterial = new Material(shader)
+                {
+                    hideFlags = HideFlags.HideAndDontSave
+                };
+                // Turn on alpha blending
+                alwaysDrawOnTopDefaultGizmosMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                alwaysDrawOnTopDefaultGizmosMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                // Turn backface culling off
+                alwaysDrawOnTopDefaultGizmosMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
+                // Turn off depth writes
+                alwaysDrawOnTopDefaultGizmosMaterial.SetInt("_ZWrite", -10);
+                alwaysDrawOnTopDefaultGizmosMaterial.SetInt("_ZTest", 0);
+            }
+            return alwaysDrawOnTopDefaultGizmosMaterial;
+        }
+        public static void SetDefaultMaterialPass(int pass = 0, bool alwaysDrawOnTop = false)
+        {
+            if(!alwaysDrawOnTop)
+                GetDefaultMaterial().SetPass(pass);
+            else
+                GetAlwaysDrawOnTopDefaultMaterial().SetPass(pass);
         }
         public static void DrawWithReference(Transform reference, Action drawMethod)
         {

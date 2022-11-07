@@ -1,77 +1,73 @@
 ﻿using UnityEngine;
-using UnityExplorer.GLDrawHelpers;
+using UnityExplorer.GizmoControls;
 
 namespace UnityExplorer.TransformGizmos
 {
     public class FromCameraViewRotationGizmo : BaseTransformGizmo
     {
-        bool selectedWheel = false;
+        CircleControl control = new();
 
-        float deltaRotation;
+        float distanceForFullRevolution = 4f;
+
+        Vector3 rotationAxis;
 
         Quaternion initialLocalRotation;
 
-
-        protected Vector3 GetDirectionWithReferencial(Transform t, Vector3 direction)
+        public override void SetScale(float scale)
         {
-            if (t.parent == null)
-                return direction;
-
-            return t.parent.InverseTransformDirection(direction);
+            base.SetScale(scale);
+            control.Scale = scale;
         }
 
-        Vector3 GetCircleDirection(Transform t) 
+        public override void Set(Transform transform)
         {
-            return (Locator.GetActiveCamera().transform.position - t.position).normalized;
+            base.Set(transform);
+
+            control.DistanceForFullRevolution = distanceForFullRevolution;
+            control.Color = Color.blue;
+            control.SelectedColor = Color.Lerp(Color.blue, Color.white, 0.8f);
+            control.Radius = 1.5f;
+            control.Transform = transform;
+            control.Normal = (t) => rotationAxis;
         }
 
-        public override bool CheckSelected(Ray ray, Transform t, float maxDistanceToSelect)
+        public override bool CheckSelected(Ray ray, float maxDistanceToSelect)
         {
+            control.MaxDistanceToSelect = maxDistanceToSelect;
+            control.IsSelected(ray);
 
-            if (Vector3MathUtils.GetClosestPointFromLineToCircle(ray.direction, ray.origin, t.position, GetCircleDirection(t), 1.2f, out bool lineParalelToCircle, out _, out _) <= maxDistanceToSelect)
-            {
-                if (!lineParalelToCircle)
-                {
-                    selectedWheel = true;
-                }
-            }
-
-            initialLocalRotation = t.localRotation;
-            deltaRotation = 0f;
+            rotationAxis = (Locator.GetActiveCamera().transform.position - transform.position).normalized;
+            initialLocalRotation = transform.localRotation;
 
             return IsSelected();
         }
 
         public override bool IsSelected()
         {
-            return selectedWheel;
+            return control.Selected;
         }
 
-        public override void OnRender(Transform t)
+        public override void OnRender()
         {
-
-            GLHelper.DrawOnGlobalReference(() =>
+            if (!control.Selected) 
             {
-                Vector3 normal = GetCircleDirection(t);
-                
-                GLDraw.WireframeCircle(1.2f, normal, Vector3MathUtils.GetArbitraryPerpendicularVector(normal), t.position, selectedWheel ? Color.Lerp(Color.blue, Color.white, 0.8f) : Color.blue, 16);
-            });
-        }
-
-        public override void OnSelected(Ray ray, Transform t)
-        {
-            float mouseScrollDelta = UniverseLib.Input.InputManager.MouseScrollDelta.y * 0.1f;
-            if (selectedWheel)
-            {
-                deltaRotation += mouseScrollDelta;
+                rotationAxis = (Locator.GetActiveCamera().transform.position - transform.position).normalized;
             }
 
-            t.localRotation = initialLocalRotation * Quaternion.AngleAxis(deltaRotation, GetDirectionWithReferencial(t, GetCircleDirection(t)));
+            control.Draw();
         }
+
+        public override void OnSelected(Ray ray)
+        {
+            float angle = control.GetValue(ray);
+
+            transform.localRotation = initialLocalRotation * Quaternion.AngleAxis(angle, Vector3MathUtils.GetDirectionWithReferencial(transform, rotationAxis));
+        }
+
 
         public override void Reset()
         {
-            selectedWheel = false;
+            control.Reset();
         }
     }
 }
