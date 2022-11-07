@@ -23,7 +23,7 @@ namespace UnityExplorer.GLDrawHelpers
                 // Turn backface culling off
                 defaultGizmosMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
                 // Turn off depth writes
-                defaultGizmosMaterial.SetInt("_ZWrite", -0);
+                defaultGizmosMaterial.SetInt("_ZWrite", 0);
             }
             return defaultGizmosMaterial;
         }
