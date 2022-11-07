@@ -17,6 +17,8 @@ namespace UnityExplorer
         FromCameraViewRotationGizmo fromCameraViewRotationGizmo = new();
         TransformOrientationGizmo transformOrientationGizmo = new();
 
+        //TODO add hotkey to enable gizmos
+        //And maybe settings for choosing them on the configs
         private void Update()
         {
             var inspector = InspectorManager.ActiveInspector;
