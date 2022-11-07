@@ -7,7 +7,10 @@ namespace UnityExplorer
 {
     public class UnityExplorer : ModBehaviour
     {
-        private void Start() =>
+        public static UnityExplorer Instance { get; private set; }
+        private void Start()
+        {
+            Instance = this;
             ExplorerStandalone.CreateInstance(
                 (message, type) =>
                     ModHelper.Console.WriteLine(message, type switch
@@ -20,5 +23,8 @@ namespace UnityExplorer
                         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
                     })
             );
+
+            gameObject.AddComponent<ExtendedTransformTools>();
+        }
     }
 }
