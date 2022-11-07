@@ -1,9 +1,9 @@
 {
   "filename": "UnityExplorer.dll",
-  "author": "Vesper & JohnCorby",
+  "author": "Vesper, JohnCorby, Locochoco",
   "name": "Unity Explorer",
   "uniqueName": "Vesper.UnityExplorer",
-  "version": "4.9.0",
+  "version": "5.0.0",
   "owmlVersion": "2.5.2",
   "pathsToPreserve": ["sinai-dev-UnityExplorer"]
 }

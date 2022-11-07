@@ -28,6 +28,6 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityExplorer.STANDALONE.Mono.dll" />
-	<Reference Include="UniverseLib.Mono.dll" />
+    <Reference Include="UniverseLib.Mono.dll" />
   </ItemGroup>
 </Project>
