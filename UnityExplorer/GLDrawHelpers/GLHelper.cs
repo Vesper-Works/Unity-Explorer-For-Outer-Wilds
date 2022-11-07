@@ -41,6 +41,7 @@ namespace UnityExplorer.GLDrawHelpers
                 // Turn backface culling off
                 alwaysDrawOnTopDefaultGizmosMaterial.SetInt("_Cull", (int)UnityEngine.Rendering.CullMode.Off);
                 // Turn off depth writes
+                //From https://answers.unity.com/questions/1674373/rendering-gl-lines-z-order-manipulation.html
                 alwaysDrawOnTopDefaultGizmosMaterial.SetInt("_ZWrite", -10);
                 alwaysDrawOnTopDefaultGizmosMaterial.SetInt("_ZTest", 0);
             }
