@@ -65,10 +65,10 @@ namespace UnityExplorer
             previousSubTypeGizmoOption = positionGizmoTypes;
         }
 
-        private readonly List<BaseTransformGizmo> RotationGizmos = new()
+        private readonly List<List<BaseTransformGizmo>> RotationGizmos = new()
         {
-            new LocalEulerAngleGizmo(),
-            new FromCameraViewRotationGizmo(),
+            new(){ new LocalEulerAngleGizmo() },
+            new(){ new LocalEulerAngleGizmo(), new FromCameraViewRotationGizmo() },
         };
         private void ChangeRotationGizmos(int rotationGizmoTypes)
         {
@@ -80,7 +80,7 @@ namespace UnityExplorer
             }
             if (RotationGizmos.Count > 0)
             {
-                EnabledGizmos.Add(RotationGizmos[rotationGizmoTypes]);
+                EnabledGizmos.AddRange(RotationGizmos[rotationGizmoTypes]);
             }
             previousSubTypeGizmoOption = rotationGizmoTypes;
         }
