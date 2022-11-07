@@ -72,7 +72,7 @@ namespace UnityExplorer
         };
         private void ChangeRotationGizmos(int rotationGizmoTypes)
         {
-            rotationGizmoTypes %= 2;
+            rotationGizmoTypes %= RotationGizmos.Count;
 
             if (previousSubTypeGizmoOption != rotationGizmoTypes)
             {
@@ -80,7 +80,7 @@ namespace UnityExplorer
             }
             if (RotationGizmos.Count > 0)
             {
-                EnabledGizmos.Add(PositionGizmos[rotationGizmoTypes]);
+                EnabledGizmos.Add(RotationGizmos[rotationGizmoTypes]);
             }
             previousSubTypeGizmoOption = rotationGizmoTypes;
         }
@@ -121,7 +121,7 @@ namespace UnityExplorer
 
             selectedTransform = goInspector.Target.transform;
 
-            float scale = Vector3.Distance(Locator.GetActiveCamera().transform.position, selectedTransform.position) / 8f;
+            float scale = Vector3.Distance(Locator.GetActiveCamera().transform.position, selectedTransform.position) / 5f;
 
             EnabledGizmos.ForEach((gizmo) =>
             {
