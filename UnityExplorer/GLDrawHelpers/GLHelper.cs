@@ -7,6 +7,7 @@ namespace UnityExplorer.GLDrawHelpers
     {
         static Material defaultGizmosMaterial;
         static Material alwaysDrawOnTopDefaultGizmosMaterial;
+        //From https://docs.unity3d.com/ScriptReference/GL.html
         public static Material GetDefaultMaterial()
         {
             if (!defaultGizmosMaterial)
@@ -43,7 +44,7 @@ namespace UnityExplorer.GLDrawHelpers
                 // Turn off depth writes
                 //From https://answers.unity.com/questions/1674373/rendering-gl-lines-z-order-manipulation.html
                 alwaysDrawOnTopDefaultGizmosMaterial.SetInt("_ZWrite", -10);
-                alwaysDrawOnTopDefaultGizmosMaterial.SetInt("_ZTest", 0);
+                alwaysDrawOnTopDefaultGizmosMaterial.SetInt("_ZTest", (int)UnityEngine.Rendering.CompareFunction.Disabled);
             }
             return alwaysDrawOnTopDefaultGizmosMaterial;
         }
