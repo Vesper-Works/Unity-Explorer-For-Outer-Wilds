@@ -27,12 +27,12 @@ namespace UnityExplorer.TransformGizmos
             LineLenght = lenght;
             HeadLenght = headLenght;
 
-            x.Lenght = lenght;
-            x.HeadLenght = headLenght;
-            y.Lenght = lenght;
-            y.HeadLenght = headLenght;
-            z.Lenght = lenght;
-            z.HeadLenght = headLenght;
+            x.Length = lenght;
+            x.HeadLength = headLenght;
+            y.Length = lenght;
+            y.HeadLength = headLenght;
+            z.Length = lenght;
+            z.HeadLength = headLenght;
         }
         public abstract Vector3 GetXDirection();
         public abstract Vector3 GetYDirection();
@@ -42,22 +42,22 @@ namespace UnityExplorer.TransformGizmos
         {
             base.Set(transform);
 
-            x.Lenght = LineLenght;
-            x.HeadLenght = HeadLenght;
+            x.Length = LineLenght;
+            x.HeadLength = HeadLenght;
             x.Transform = transform;
             x.Color = Color.red;
             x.SelectedColor = Color.Lerp(Color.red, Color.white, 0.8f);
             x.Direction = (t) => GetXDirection();
 
-            y.Lenght = LineLenght;
-            y.HeadLenght = HeadLenght;
+            y.Length = LineLenght;
+            y.HeadLength = HeadLenght;
             y.Transform = transform;
             y.Color = Color.yellow;
             y.SelectedColor = Color.Lerp(Color.yellow, Color.white, 0.8f);
             y.Direction = (t) => GetYDirection();
 
-            z.Lenght = LineLenght;
-            z.HeadLenght = HeadLenght;
+            z.Length = LineLenght;
+            z.HeadLength = HeadLenght;
             z.Transform = transform;
             z.Color = Color.cyan;
             z.SelectedColor = Color.Lerp(Color.cyan, Color.white, 0.8f);
@@ -74,7 +74,7 @@ namespace UnityExplorer.TransformGizmos
             y.IsSelected(ray);
             z.IsSelected(ray);
 
-            initialPosition = Vector3MathUtils.GetPositionWithReferencial(transform, transform.position);
+            initialPosition = Vector3MathUtils.ParentInverseTransformPoint(transform, transform.position);
 
             return IsSelected();
         }
@@ -96,7 +96,7 @@ namespace UnityExplorer.TransformGizmos
             if (z.Selected)
                 aditionToPosition += z.GetValue(ray);
 
-            transform.position = Vector3MathUtils.ReturnPositionFromReferencial(transform, initialPosition + aditionToPosition);
+            transform.position = Vector3MathUtils.ParentTransformPoint(transform, initialPosition + aditionToPosition);
         }
         public override bool IsSelected()
         {

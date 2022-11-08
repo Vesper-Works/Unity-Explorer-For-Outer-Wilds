@@ -31,37 +31,47 @@ namespace UnityExplorer.GLDrawHelpers
         /// <param name="color"></param>
         public static void WireframeCube(Vector3 foward, Vector3 up, Vector3 right, Vector3 offset, Color color)
         {
-            Vector3[] vertex = new Vector3[4];
-            vertex[0] = (foward + right) / 2f;
-            vertex[1] = (-foward + right) / 2f;
-            vertex[2] = (-foward - right) / 2f;
-            vertex[3] = (foward - right) / 2f;
+            //There is probabilly a better way to do this
+            Vector3 cubeSideFR = (foward + right) / 2f;
+            Vector3 cubeSideMFR = (-foward + right) / 2f;
+            Vector3 cubeSideMFMR = (-foward - right) / 2f;
+            Vector3 cubeSideFMR = (foward - right) / 2f;
 
             GL.Begin(GL.LINE_STRIP);
             GL.Color(color);
-            for (int i = 0; i < 4; i++)
-            {
-                GL.Vertex(vertex[i] + offset - up / 2f);
-            }
-            GL.Vertex(vertex[0] + offset - up / 2f); ;
+            GL.Vertex(cubeSideFR + offset - up / 2f);
+            GL.Vertex(cubeSideMFR + offset - up / 2f);
+            GL.Vertex(cubeSideMFMR + offset - up / 2f);
+            GL.Vertex(cubeSideFMR + offset - up / 2f);
+
+            GL.Vertex(cubeSideFR + offset - up / 2f);
             GL.End();
 
             GL.Begin(GL.LINE_STRIP);
             GL.Color(color);
-            for (int i = 0; i < 4; i++)
-            {
-                GL.Vertex(vertex[i] + offset + up / 2f);
-            }
-            GL.Vertex(vertex[0] + offset + up / 2f);
+
+            GL.Vertex(cubeSideFR + offset + up / 2f);
+            GL.Vertex(cubeSideMFR + offset + up / 2f);
+            GL.Vertex(cubeSideMFMR + offset + up / 2f);
+            GL.Vertex(cubeSideFMR + offset + up / 2f);
+
+            GL.Vertex(cubeSideFR + offset + up / 2f);
             GL.End();
 
             GL.Begin(GL.LINES);
-            for (int i = 0; i < 4; i++)
-            {
-                GL.Color(color);
-                GL.Vertex(vertex[i] + offset - up / 2f);
-                GL.Vertex(vertex[i] + offset + up / 2f);
-            }
+
+            GL.Vertex(cubeSideFR + offset - up / 2f);
+            GL.Vertex(cubeSideFR + offset + up / 2f);
+
+            GL.Vertex(cubeSideMFR + offset - up / 2f);
+            GL.Vertex(cubeSideMFR + offset + up / 2f);
+
+            GL.Vertex(cubeSideMFMR + offset - up / 2f);
+            GL.Vertex(cubeSideMFMR + offset + up / 2f);
+
+            GL.Vertex(cubeSideFMR + offset - up / 2f);
+            GL.Vertex(cubeSideFMR + offset + up / 2f);
+
             GL.End();
         }
 

@@ -55,25 +55,24 @@ namespace UnityExplorer.GLDrawHelpers
             else
                 GetAlwaysDrawOnTopDefaultMaterial().SetPass(pass);
         }
-        public static void DrawWithReference(Transform reference, Action drawMethod)
+        public static void DrawWithReference(Transform reference)
         {
             GL.PushMatrix();
             GL.MultMatrix(reference.localToWorldMatrix);
-            drawMethod?.Invoke();
-            GL.PopMatrix();
         }
-        public static void DrawOnGlobalReference(Action drawMethod)
+        public static void DrawOnGlobalReference()
         {
             GL.PushMatrix();
             GL.MultMatrix(Matrix4x4.TRS(Vector3.zero, Quaternion.identity, Vector3.one));
-            drawMethod?.Invoke();
-            GL.PopMatrix();
         }
-        public static void DrawWithOrthoProjection(Action drawMethod)
+        public static void DrawWithOrthoProjection()
         {
             GL.PushMatrix();
             GL.LoadOrtho();
-            drawMethod?.Invoke();
+        }
+
+        public static void FinishDraw()
+        {
             GL.PopMatrix();
         }
 

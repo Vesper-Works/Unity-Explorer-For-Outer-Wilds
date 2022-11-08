@@ -32,7 +32,7 @@ namespace UnityExplorer.TransformGizmos
             x.Normal = (t) =>
             {
                 Vector3 localFowardAxis = t.forward;
-                Vector3 localUp = Vector3MathUtils.ReturnDirectionWithReferencial(t, Vector3.up);
+                Vector3 localUp = Vector3MathUtils.ParentTransformDirection(t, Vector3.up);
                 Vector3 yRotationAxis = Vector3.Cross(localUp, localFowardAxis);
                 if (yRotationAxis.ApproxEquals(Vector3.zero))
                 {
@@ -48,7 +48,7 @@ namespace UnityExplorer.TransformGizmos
             y.Transform = transform;
             y.Normal = (t) =>
             {
-                Vector3 localUp = Vector3MathUtils.ReturnDirectionWithReferencial(t, Vector3.up);
+                Vector3 localUp = Vector3MathUtils.ParentTransformDirection(t, Vector3.up);
                 return localUp;
             };
 

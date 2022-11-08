@@ -61,7 +61,7 @@ namespace UnityExplorer.TransformGizmos
         {
             float angle = control.GetValue(ray);
 
-            transform.localRotation = initialLocalRotation * Quaternion.AngleAxis(angle, Vector3MathUtils.GetDirectionWithReferencial(transform, rotationAxis));
+            transform.localRotation = initialLocalRotation * Quaternion.AngleAxis(angle, Vector3MathUtils.ParentInverseTransformDirection(transform, rotationAxis));
         }
 
 

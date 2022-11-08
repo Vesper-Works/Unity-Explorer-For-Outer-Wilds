@@ -17,23 +17,23 @@ namespace UnityExplorer.TransformGizmos
 
         public override void OnRender()
         {
-            GLHelper.DrawOnGlobalReference(() =>
+            GLHelper.DrawOnGlobalReference();
+            //Global position axis
+            Vector3 localFowardAxis = transform.forward;
+            Vector3 localRightAxis = transform.right;
+
+            //Local Euler Rotation
+            Vector3 yRotationAxis = Vector3.Cross(Vector3.up, localFowardAxis);
+            if (yRotationAxis.ApproxEquals(Vector3.zero))
             {
-                //Global position axis
-                Vector3 localFowardAxis = transform.forward;
-                Vector3 localRightAxis = transform.right;
+                yRotationAxis = localRightAxis;
+            }
 
-                //Local Euler Rotation
-                Vector3 yRotationAxis = Vector3.Cross(Vector3.up, localFowardAxis);
-                if (yRotationAxis.ApproxEquals(Vector3.zero))
-                {
-                    yRotationAxis = localRightAxis;
-                }
+            GLDraw.WireframeCircle(1f, yRotationAxis, localFowardAxis, transform.position, Color.red, 16);
+            GLDraw.WireframeCircle(1f, Vector3.up, Vector3.forward, transform.position, Color.yellow, 16);
+            GLDraw.WireframeCircle(1f, localFowardAxis, transform.up, transform.position, Color.cyan, 16);
 
-                GLDraw.WireframeCircle(1f, yRotationAxis, localFowardAxis, transform.position, Color.red, 16);
-                GLDraw.WireframeCircle(1f, Vector3.up, Vector3.forward, transform.position, Color.yellow, 16);
-                GLDraw.WireframeCircle(1f, localFowardAxis, transform.up, transform.position, Color.cyan, 16);
-            });
+            GLHelper.FinishDraw();
         }
 
         public override void OnSelected(Ray ray)

@@ -26,10 +26,10 @@ namespace UnityExplorer.GizmoControls
 
         public override float GetValue(Ray ray)
         {
-            Vector3 foward = Vector3MathUtils.ReturnDirectionWithReferencial(Transform, selectedFowardDirection);
+            Vector3 foward = Vector3MathUtils.ParentTransformDirection(Transform, selectedFowardDirection);
 
             Vector3MathUtils.GetClosestPointFromLines(ray.direction, ray.origin, foward, Transform.position, out _, out Vector3 currentXSelectedPosition);
-            currentXSelectedPosition = Vector3MathUtils.GetPositionWithReferencial(Transform, currentXSelectedPosition);
+            currentXSelectedPosition = Vector3MathUtils.ParentInverseTransformPoint(Transform, currentXSelectedPosition);
             float distanceWihReference = Vector3.Dot(currentXSelectedPosition - selectedPosition, selectedFowardDirection);
             return distanceWihReference * 360f / DistanceForFullRevolution;
         }
@@ -42,9 +42,9 @@ namespace UnityExplorer.GizmoControls
                 if (!lineParalelToCircle && !isEquidistant)
                 {
                     selectedPosition = selectedPoint;
-                    selectedPosition = Vector3MathUtils.GetPositionWithReferencial(Transform, selectedPosition);
+                    selectedPosition = Vector3MathUtils.ParentInverseTransformPoint(Transform, selectedPosition);
                     selectedFowardDirection = Vector3.Cross(normal, (selectedPoint - Transform.position).normalized);
-                    selectedFowardDirection = Vector3MathUtils.GetDirectionWithReferencial(Transform, selectedFowardDirection);
+                    selectedFowardDirection = Vector3MathUtils.ParentInverseTransformDirection(Transform, selectedFowardDirection);
                     Selected = true;
                 }
             }
@@ -53,12 +53,13 @@ namespace UnityExplorer.GizmoControls
         public override void Draw()
         {
             Vector3 normal = Normal(Transform);
-            GLHelper.DrawOnGlobalReference(() =>
-            {
-                Vector3 randomUp = Vector3MathUtils.GetArbitraryPerpendicularVector(normal);
-                Color color = Selected ? SelectedColor : Color;
-                GLDraw.WireframeCircle(Radius * Scale, normal, randomUp, Transform.position, color, 16);
-            });
+            GLHelper.DrawOnGlobalReference();
+
+            Vector3 randomUp = Vector3MathUtils.GetArbitraryPerpendicularVector(normal);
+            Color color = Selected ? SelectedColor : Color;
+            GLDraw.WireframeCircle(Radius * Scale, normal, randomUp, Transform.position, color, 16);
+
+            GLHelper.FinishDraw();
         }
     }
 }

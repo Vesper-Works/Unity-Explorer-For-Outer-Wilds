@@ -4,28 +4,28 @@ namespace UnityExplorer
 {
     public static class Vector3MathUtils
     {
-        public static Vector3 GetPositionWithReferencial(Transform t, Vector3 position)
+        public static Vector3 ParentInverseTransformPoint(Transform t, Vector3 position)
         {
             if (t.parent == null)
                 return position;
 
             return t.parent.InverseTransformPoint(position);
         }
-        public static Vector3 ReturnPositionFromReferencial(Transform t, Vector3 position)
+        public static Vector3 ParentTransformPoint(Transform t, Vector3 position)
         {
             if (t.parent == null)
                 return position;
 
             return t.parent.TransformPoint(position);
         }
-        public static Vector3 GetDirectionWithReferencial(Transform t, Vector3 direction)
+        public static Vector3 ParentInverseTransformDirection(Transform t, Vector3 direction)
         {
             if (t.parent == null)
                 return direction;
 
             return t.parent.InverseTransformDirection(direction);
         }
-        public static Vector3 ReturnDirectionWithReferencial(Transform t, Vector3 direction)
+        public static Vector3 ParentTransformDirection(Transform t, Vector3 direction)
         {
             if (t.parent == null)
                 return direction;

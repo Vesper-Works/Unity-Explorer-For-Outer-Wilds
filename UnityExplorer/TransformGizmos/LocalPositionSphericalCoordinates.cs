@@ -136,12 +136,11 @@ namespace UnityExplorer.TransformGizmos
 
             float radiusValue = ReturnDirectionFromReferencial(transform, new Vector3(transform.localPosition.x, 0f, transform.localPosition.z)).magnitude;
 
-            GLHelper.DrawOnGlobalReference(() =>
-            {
-                GLDraw.Vector(radius, lineSegmentDistance, transform.position, selectedRadius ? Color.Lerp(Color.red, Color.white, 0.8f) : Color.red);
-                GLDraw.Vector(up, lineSegmentDistance, transform.position, selectedY ? Color.Lerp(Color.yellow, Color.white, 0.8f) : Color.yellow);
-                GLDraw.WireframeCircle(radiusValue, up, radius, centerAxis, selectedTheta ? Color.Lerp(Color.cyan, Color.white, 0.8f) : Color.cyan, 16);
-            });
+            GLDraw.Vector(radius, lineSegmentDistance, transform.position, selectedRadius ? Color.Lerp(Color.red, Color.white, 0.8f) : Color.red);
+            GLDraw.Vector(up, lineSegmentDistance, transform.position, selectedY ? Color.Lerp(Color.yellow, Color.white, 0.8f) : Color.yellow);
+            GLDraw.WireframeCircle(radiusValue, up, radius, centerAxis, selectedTheta ? Color.Lerp(Color.cyan, Color.white, 0.8f) : Color.cyan, 16);
+            
+            GLHelper.FinishDraw();
         }
         public override void OnSelected(Ray ray)
         {

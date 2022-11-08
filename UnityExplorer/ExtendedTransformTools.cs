@@ -101,6 +101,13 @@ namespace UnityExplorer
             }
             
         }
+        private void ResetEnabledGizmos() 
+        {
+            for (int i = 0; i < EnabledGizmos.Count; i++)
+            {
+                EnabledGizmos[i].Reset();
+            }
+        }
 
         private void Update()
         {
@@ -110,12 +117,12 @@ namespace UnityExplorer
 
             if (inspector is not GameObjectInspector goInspector)
             {
-                EnabledGizmos.ForEach((gizmo) => gizmo.Reset());
+                ResetEnabledGizmos();
                 return;
             }
             if(goInspector.Target == null)
             {
-                EnabledGizmos.ForEach((gizmo) => gizmo.Reset());
+                ResetEnabledGizmos();
                 return;
             }
 
@@ -123,36 +130,46 @@ namespace UnityExplorer
 
             float scale = Vector3.Distance(Locator.GetActiveCamera().transform.position, selectedTransform.position) / 5f;
 
-            EnabledGizmos.ForEach((gizmo) =>
+
+            for (int i = 0; i < EnabledGizmos.Count; i++)
             {
+                BaseTransformGizmo gizmo = EnabledGizmos[i];
                 gizmo.SetScale(scale);
                 gizmo.Set(selectedTransform);
-            });
+            }
 
             Ray ray = Locator.GetActiveCamera().ScreenPointToRay(UniverseLib.Input.InputManager.MousePosition);
 
             if (UniverseLib.Input.InputManager.GetMouseButtonDown(0))
             {
-                bool noneIsSelected = EnabledGizmos.TrueForAll((gizmo) => !gizmo.IsSelected());
-
-                if (noneIsSelected)
+                bool oneIsSelected = false;
+                for (int i = 0; i < EnabledGizmos.Count; i++)
                 {
-                    EnabledGizmos.ForEach((gizmo) => gizmo.CheckSelected(ray, maxDistanceToSelect * scale));
+                    oneIsSelected |= EnabledGizmos[i].IsSelected();
                 }
+                if (!oneIsSelected)
+                {
+                    for (int i = 0; i < EnabledGizmos.Count; i++)
+                    { 
+                        EnabledGizmos[i].CheckSelected(ray, maxDistanceToSelect * scale);
+                    }
+                }
+                
             }
             else if (UniverseLib.Input.InputManager.GetMouseButton(0))
             {
-                EnabledGizmos.ForEach((gizmo) =>
+                for (int i = 0; i < EnabledGizmos.Count; i++)
                 {
+                    BaseTransformGizmo gizmo = EnabledGizmos[i];
                     if (gizmo.IsSelected())
                     {
                         gizmo.OnSelected(ray);
                     }
-                });
+                }
             }
             else
             {
-                EnabledGizmos.ForEach((gizmo) => gizmo.Reset());
+                ResetEnabledGizmos();
             }
 
         }
