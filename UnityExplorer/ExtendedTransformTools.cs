@@ -90,12 +90,12 @@ namespace UnityExplorer
         //And maybe settings for choosing them on the configs
         private void HotKeysForSwaping() 
         {
-            if (UniverseLib.Input.InputManager.GetKeyUp(KeyCode.R)) 
+            if (UniverseLib.Input.InputManager.GetKeyUp(KeyCode.V)) 
             {
                 ChangeGizmos(previousSelectedGizmo + 1, previousSubTypeGizmoOption);
             }
             
-            if (UniverseLib.Input.InputManager.GetKeyUp(KeyCode.T)) 
+            if (UniverseLib.Input.InputManager.GetKeyUp(KeyCode.B)) 
             {
                 ChangeGizmos(previousSelectedGizmo, previousSubTypeGizmoOption + 1);
             }
