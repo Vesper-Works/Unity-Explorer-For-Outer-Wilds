@@ -40,6 +40,11 @@ namespace UnityExplorer.TransformGizmos
 
         public override void Set(Transform transform)
         {
+            //TODO make it not have to always change and do all this for every ArrowControl
+            //maybe have the gizmos have a reference for their BaseTransformGizmo 
+            // and then they can just get the selectedTransform from it
+            //and create a Init method to not call non Set stuff here (like x.Color or x.Direction)
+
             base.Set(transform);
 
             x.Length = LineLenght;
