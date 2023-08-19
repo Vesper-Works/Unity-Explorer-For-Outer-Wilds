@@ -1,5 +1,9 @@
-﻿<Project>
-  <PropertyGroup>
-    <OutputPath>$(AppData)\OuterWildsModManager\OWML\Mods\Vesper.UnityExplorer</OutputPath>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <OutputPath>$(AppData)/OuterWildsModManager/OWML/Mods/Vesper.UnityExplorer</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(OS)' == 'Unix'">
+    <OutputPath>$(HOME)/.local/share/ow-mod-man/OWML/Mods/Vesper.UnityExplorer</OutputPath>
   </PropertyGroup>
 </Project>
