@@ -3,7 +3,7 @@
   "author": "Vesper & JohnCorby",
   "name": "Unity Explorer",
   "uniqueName": "Vesper.UnityExplorer",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "owmlVersion": "2.5.2",
   "pathsToPreserve": ["sinai-dev-UnityExplorer"]
 }

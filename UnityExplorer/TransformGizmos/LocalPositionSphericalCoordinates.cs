@@ -85,7 +85,7 @@ namespace UnityExplorer.TransformGizmos
         public static Vector3 FromCartesianToCylindrical(Vector3 cartesian)
         {
             float y = cartesian.y;
-            Vector2 polar = new(cartesian.z, cartesian.x);
+            Vector2 polar = new Vector2(cartesian.z, cartesian.x);
             float radius = polar.magnitude;
             float theta = 0f;
             if (!( Mathf.Abs(polar.x) < 1e-2f || Mathf.Abs(polar.y) < 1e-2f))

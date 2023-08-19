@@ -5,9 +5,9 @@ namespace UnityExplorer.TransformGizmos
 {
     public abstract class BaseInteractablePositionGizmo : BaseTransformGizmo
     {
-        ArrowControl x = new();
-        ArrowControl y = new();
-        ArrowControl z = new();
+        ArrowControl x = new ArrowControl();
+        ArrowControl y = new ArrowControl();
+        ArrowControl z = new ArrowControl();
 
         Vector3 initialPosition;
 

@@ -5,7 +5,7 @@ namespace UnityExplorer.TransformGizmos
 {
     public class FromCameraViewRotationGizmo : BaseTransformGizmo
     {
-        CircleControl control = new();
+        CircleControl control = new CircleControl();
 
         float distanceForFullRevolution = 4f;
 

@@ -10,11 +10,13 @@ namespace UnityExplorer
     public class ExtendedTransformTools : MonoBehaviour
     {
         Transform selectedTransform;
-
         float maxDistanceToSelect = 0.05f;
+        
+        //Hotkeys
+        public KeyCode GizmoSelectKey = KeyCode.G;
+        public KeyCode SubGizmoSelectKey = KeyCode.B;
 
-
-        private List<BaseTransformGizmo> EnabledGizmos = new();
+        private List<BaseTransformGizmo> EnabledGizmos = new List<BaseTransformGizmo>();
 
         int previousSelectedGizmo = 0;
         int previousSubTypeGizmoOption = 0;
@@ -35,16 +37,12 @@ namespace UnityExplorer
                 case 2:
                     ChangeRotationGizmos(subTypeGizmoOption);
                     break;
-
-                case 0:
-                default:
-                    break;
             }
 
             previousSelectedGizmo = selectedGizmo;
         }
 
-        private readonly List<BaseTransformGizmo> PositionGizmos = new()
+        private readonly List<BaseTransformGizmo> PositionGizmos = new List<BaseTransformGizmo>()
         {
             new LocalPositionGizmo(),
             new TransformOrientationGizmo(),
@@ -65,10 +63,10 @@ namespace UnityExplorer
             previousSubTypeGizmoOption = positionGizmoTypes;
         }
 
-        private readonly List<List<BaseTransformGizmo>> RotationGizmos = new()
+        private readonly List<List<BaseTransformGizmo>> RotationGizmos = new List<List<BaseTransformGizmo>>()
         {
-            new(){ new LocalEulerAngleGizmo() },
-            new(){ new LocalEulerAngleGizmo(), new FromCameraViewRotationGizmo() },
+            new List<BaseTransformGizmo>(){ new LocalEulerAngleGizmo() },
+            new List<BaseTransformGizmo>(){ new LocalEulerAngleGizmo(), new FromCameraViewRotationGizmo() },
         };
         private void ChangeRotationGizmos(int rotationGizmoTypes)
         {
@@ -84,17 +82,17 @@ namespace UnityExplorer
             }
             previousSubTypeGizmoOption = rotationGizmoTypes;
         }
-
-
-        //TODO add hotkey to enable gizmos
-        //And maybe settings for choosing them on the configs
+        
         private void HotKeysForSwaping() 
         {
+            if (Event.current == null)
+                return;
+            
             int selectedGizmo = previousSelectedGizmo;
             int selectedSubGizmo = previousSubTypeGizmoOption;
 
-            selectedGizmo += UniverseLib.Input.InputManager.GetKeyUp(KeyCode.V) ? 1 : 0;
-            selectedSubGizmo = UniverseLib.Input.InputManager.GetKeyUp(KeyCode.B) ? 1 : 0;
+            selectedGizmo += UniverseLib.Input.InputManager.GetKeyUp(GizmoSelectKey) ? 1 : 0;
+            selectedSubGizmo += UniverseLib.Input.InputManager.GetKeyUp(SubGizmoSelectKey) ? 1 : 0;
 
             ChangeGizmos(selectedGizmo, selectedSubGizmo);
 
@@ -113,7 +111,7 @@ namespace UnityExplorer
 
             var inspector = InspectorManager.ActiveInspector;
 
-            if (inspector is not GameObjectInspector goInspector)
+            if (!(inspector is GameObjectInspector goInspector))
             {
                 ResetEnabledGizmos();
                 return;

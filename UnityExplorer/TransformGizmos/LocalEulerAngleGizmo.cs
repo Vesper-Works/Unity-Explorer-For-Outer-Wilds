@@ -5,9 +5,9 @@ namespace UnityExplorer.TransformGizmos
 {
     internal class LocalEulerAngleGizmo : BaseTransformGizmo
     {
-        CircleControl x = new();
-        CircleControl y = new();
-        CircleControl z = new();
+        CircleControl x = new CircleControl();
+        CircleControl y = new CircleControl();
+        CircleControl z = new CircleControl();
 
         float distanceForFullRevolution = 4f;
 
