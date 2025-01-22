@@ -1,13 +1,21 @@
 ﻿using OWML.Common;
 using OWML.ModHelper;
 using System;
+using System.Reflection;
 using UnityEngine;
+using HarmonyLib;
 
 namespace UnityExplorer
 {
     public class UnityExplorer : ModBehaviour
     {
         public static UnityExplorer Instance { get; private set; }
+
+        private void Awake()
+        {
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly());
+        }
+
         private void Start()
         {
             Instance = this;
