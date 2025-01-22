@@ -12,7 +12,6 @@ namespace UnityExplorer
         public static void PostCreditsInput(PostCreditsManager __instance)
         {
             GameObject.Find("GlobalManagers").AddComponent<OWInput>();
-            GameObject.Find("GlobalManagers").GetComponent<OWInput>().Awake();
         }
     }
 }
