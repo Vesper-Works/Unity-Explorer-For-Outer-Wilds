@@ -31,12 +31,12 @@ namespace UnityExplorer.TransformGizmos
             x.Transform = transform;
             x.Normal = (t) =>
             {
-                Vector3 localFowardAxis = t.forward;
+                Vector3 localForwardAxis = t == null ? Vector3.forward : t.forward;
                 Vector3 localUp = Vector3MathUtils.ReturnDirectionWithReferencial(t, Vector3.up);
-                Vector3 yRotationAxis = Vector3.Cross(localUp, localFowardAxis);
+                Vector3 yRotationAxis = Vector3.Cross(localUp, localForwardAxis);
                 if (yRotationAxis.ApproxEquals(Vector3.zero))
                 {
-                    yRotationAxis = t.right;
+                    yRotationAxis = t == null ? Vector3.right : t.right;
                 }
                 return yRotationAxis;
             };
