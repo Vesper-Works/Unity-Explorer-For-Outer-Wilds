@@ -1,20 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
-    <LangVersion>default</LangVersion>
-    <Copyright>Copyright © 2020</Copyright>
+    <LangVersion>latest</LangVersion>
+    <Copyright>Copyright © 2024 Vesper</Copyright>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
-    <DebugType>none</DebugType>
+    <NoWarn>MSB3270</NoWarn>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="OWML" Version="2.5.2" />
-    <PackageReference Include="OuterWildsGameLibs" Version="1.1.12.168" />
-    <PackageReference Include="HarmonyX" Version="2.14.0" />
+    <PackageReference Include="OWML" Version="2.14.1" />
+    <PackageReference Include="OuterWildsGameLibs" Version="1.1.15.1018" />
   </ItemGroup>
   <ItemGroup>
     <None Include="default-config.json">

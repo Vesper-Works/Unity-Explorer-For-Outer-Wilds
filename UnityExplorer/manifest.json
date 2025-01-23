@@ -4,6 +4,6 @@
   "name": "Unity Explorer",
   "uniqueName": "Vesper.UnityExplorer",
   "version": "5.0.0",
-  "owmlVersion": "2.5.2",
+  "owmlVersion": "2.14.1",
   "pathsToPreserve": ["sinai-dev-UnityExplorer"]
 }
