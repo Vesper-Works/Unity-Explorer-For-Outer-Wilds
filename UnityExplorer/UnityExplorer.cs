@@ -32,9 +32,6 @@ namespace UnityExplorer
                     })
             );
 
-            // gizmos seem to cause problems sometimes according to anon, so im just gonna turn em off for now
-            // at some point loco should fix the stuff
-            return;
             gameObject.AddComponent<ExtendedTransformTools>();
         }
     }
