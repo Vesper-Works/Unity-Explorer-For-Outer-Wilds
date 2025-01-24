@@ -6,8 +6,10 @@ This mod is an implementation of [Unity Explorer](https://github.com/sinai-dev/U
 # Interactable Gizmos
 This works with the currently selected GameObject in the Inspector.
 
-Press `R` to cycle between none, local position, and local rotation.
+Press `R` to cycle between no gizmos, `Local Position`, and `Local Rotation` gizmos.
 
 Press `T` to
-- in Local Position mode go from actual local position to using the transform orientation
-- in Local Rotation to toggle a rotation wheel that always looks at the camera
+- in `Local Position` mode go from actual local position to using the transform orientation
+- in `Local Rotation` mode toggle a rotation wheel that always looks at the camera
+
+This feature is still in beta, so expect some weirdness. [Report any issues you find](https://github.com/Vesper-Works/Unity-Explorer-For-Outer-Wilds/issues/new).
