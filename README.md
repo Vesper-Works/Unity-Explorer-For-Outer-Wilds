@@ -1,4 +1,4 @@
-# Unity-Explorer
+# Unity Explorer for Outer Wilds
 ![image](https://user-images.githubusercontent.com/59376295/145025571-70745c0c-562f-4031-a345-990c6ab86edb.png)
 ![image](https://github.com/user-attachments/assets/6dd0c565-46db-497a-81d4-0f404fb203ce)
 
