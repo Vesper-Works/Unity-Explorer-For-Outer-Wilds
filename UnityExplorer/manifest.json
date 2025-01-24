@@ -5,5 +5,5 @@
   "uniqueName": "Vesper.UnityExplorer",
   "version": "6.0.0",
   "owmlVersion": "2.14.1",
-  "pathsToPreserve": ["sinai-dev-UnityExplorer"]
+  "pathsToPreserve": ["CinematicUnityExplorer"]
 }
