@@ -5,7 +5,7 @@
 This mod is an implementation of [Cinematic Unity Explorer](https://github.com/originalnicodr/CinematicUnityExplorer) for Outer Wilds.
 
 # Potential surprises
-The default keybinds will probably overlap with buttons from cheats mods. Check the `Options` tab and [guide](https://framedsc.com/GeneralGuides/cinematic-unity-explorer.htm#hotkeys).
+The default keybinds will probably overlap with buttons from cheats mods. Check the `Options` tab to change the binds and the [guide](https://framedsc.com/GeneralGuides/cinematic-unity-explorer.htm#hotkeys) to see the defaults.
 
 The guide in general has [useful tips](https://framedsc.com/GeneralGuides/cinematic-unity-explorer.htm#tips-tricks-and-common-questions) for using Unity Explorer.
 
