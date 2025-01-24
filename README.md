@@ -1,10 +1,13 @@
 # Unity-Explorer
 ![image](https://user-images.githubusercontent.com/59376295/145025571-70745c0c-562f-4031-a345-990c6ab86edb.png)
 
-This mod is an implementation of [Unity Explorer](https://github.com/originalnicodr/CinematicUnityExplorer) for Outer Wilds.
+This mod is an implementation of [Cinematic Unity Explorer](https://github.com/originalnicodr/CinematicUnityExplorer) for Outer Wilds.
+
+# Potential surprises
+The default keybinds will probably overlap with buttons from cheats mods. Check the `Options` tab and [guide](https://framedsc.com/GeneralGuides/cinematic-unity-explorer.htm#hotkeys).
 
 # Interactable Gizmos
-This works with the currently selected GameObject in the Inspector.
+This works with the currently selected GameObject in the `Inspector` tab.
 
 Press `R` to cycle between no gizmos, `Local Position`, and `Local Rotation` gizmos.
 
