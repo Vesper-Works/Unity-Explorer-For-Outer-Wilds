@@ -6,6 +6,8 @@ This mod is an implementation of [Cinematic Unity Explorer](https://github.com/o
 # Potential surprises
 The default keybinds will probably overlap with buttons from cheats mods. Check the `Options` tab and [guide](https://framedsc.com/GeneralGuides/cinematic-unity-explorer.htm#hotkeys).
 
+The guide in general has [useful tips](https://framedsc.com/GeneralGuides/cinematic-unity-explorer.htm#tips-tricks-and-common-questions) for using Unity Explorer.
+
 # Interactable Gizmos
 This works with the currently selected GameObject in the `Inspector` tab.
 
