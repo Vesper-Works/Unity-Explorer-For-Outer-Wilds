@@ -19,7 +19,7 @@ namespace UnityExplorer
         int previousSelectedGizmo = 0;
         int previousSubTypeGizmoOption = 0;
 
-        private void ChangeGizmos(int selectedGizmo, int subTypeGizmoOption) 
+        private void ChangeGizmos(int selectedGizmo, int subTypeGizmoOption)
         {
             selectedGizmo %= 3;
 
@@ -27,7 +27,7 @@ namespace UnityExplorer
             {
                 EnabledGizmos.Clear();
             }
-            switch (selectedGizmo) 
+            switch (selectedGizmo)
             {
                 case 1:
                     ChangePositionGizmos(subTypeGizmoOption);
@@ -88,18 +88,20 @@ namespace UnityExplorer
 
         //TODO add hotkey to enable gizmos
         //And maybe settings for choosing them on the configs
-        private void HotKeysForSwaping() 
+        private void HotKeysForSwaping()
         {
-            if (UniverseLib.Input.InputManager.GetKeyUp(KeyCode.R)) 
+            if (!UniverseLib.Input.InputManager.GetKey(KeyCode.U)) return;
+
+            if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.R))
             {
                 ChangeGizmos(previousSelectedGizmo + 1, previousSubTypeGizmoOption);
             }
-            
-            if (UniverseLib.Input.InputManager.GetKeyUp(KeyCode.T)) 
+
+            if (UniverseLib.Input.InputManager.GetKeyDown(KeyCode.T))
             {
                 ChangeGizmos(previousSelectedGizmo, previousSubTypeGizmoOption + 1);
             }
-            
+
         }
 
         private void Update()

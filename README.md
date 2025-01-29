@@ -4,17 +4,17 @@
 
 This mod is an implementation of [Cinematic Unity Explorer](https://github.com/originalnicodr/CinematicUnityExplorer) for Outer Wilds.
 
-# Potential surprises
-The default keybinds will probably overlap with buttons from cheats mods. Check the `Options` tab to change the binds and the [guide](https://framedsc.com/GeneralGuides/cinematic-unity-explorer.htm#hotkeys) to see the defaults.
+# New binds
+The default keybinds may overlap with buttons from cheats mods (it uses numpad). Check the `Options` tab to change the binds and the [guide](https://framedsc.com/GeneralGuides/cinematic-unity-explorer.htm#hotkeys) to see the defaults.
 
 The guide in general has [useful tips](https://framedsc.com/GeneralGuides/cinematic-unity-explorer.htm#tips-tricks-and-common-questions) for using Unity Explorer.
 
 # Interactable Gizmos
 This works with the currently selected GameObject in the `Inspector` tab.
 
-Press `R` to cycle between no gizmos, `Local Position`, and `Local Rotation` gizmos.
+Press `U + R` to cycle between no gizmos, `Local Position`, and `Local Rotation` gizmos.
 
-Press `T` to
+Press `U + T` to
 - in `Local Position` mode go from actual local position to using the transform orientation
 - in `Local Rotation` mode toggle a rotation wheel that always looks at the camera
 
