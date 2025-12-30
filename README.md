@@ -3,4 +3,4 @@
 
 This mod is an implementation of [Unity Explorer](https://github.com/yukieiji/UnityExplorer) for Outer Wilds.
 
-Want more features, such as camera paths or transform gizmos? Try [Cinematic Unity Explorer for Outer Wilds](TODO)
+Want more features, such as camera paths or transform gizmos? Try [Cinematic Unity Explorer for Outer Wilds](https://outerwildsmods.com/mods/cinematicunityexplorer/)
