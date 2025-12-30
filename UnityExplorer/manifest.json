@@ -1,9 +1,11 @@
 {
+  "$schema": "https://raw.githubusercontent.com/ow-mods/owml/master/schemas/manifest_schema.json",
   "filename": "UnityExplorer.dll",
   "author": "Vesper, JohnCorby, Locochoco",
   "name": "Unity Explorer",
   "uniqueName": "Vesper.UnityExplorer",
-  "version": "6.0.1",
+  "version": "7.0.0",
   "owmlVersion": "2.14.1",
-  "pathsToPreserve": ["CinematicUnityExplorer"]
+  "conflicts": ["MegaPiggy.CinematicUnityExplorer"],
+  "pathsToPreserve": ["sinai-dev-UnityExplorer"]
 }
